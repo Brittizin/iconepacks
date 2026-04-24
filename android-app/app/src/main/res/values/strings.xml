@@ -5,9 +5,14 @@
     <string name="pack_stats">%1$d icones breakcore prontos para usar</string>
     <string name="pack_filter_stats">%1$d de %2$d icones visiveis</string>
     <string name="search_hint">Buscar app, nome ou pacote</string>
-    <string name="helper_text">Toque em um icone para copiar os pacotes Android mais comuns dele.</string>
+    <string name="helper_text">Toque em um icone para pedir um atalho novo com o visual breakcore.</string>
     <string name="no_results">Nenhum icone encontrado para essa busca.</string>
-    <string name="packages_copied">Pacotes de %1$s copiados.</string>
     <string name="icon_preview">Preview do icone</string>
     <string name="splash_subtitle">glitch mode on</string>
+    <string name="tap_to_apply">Toque para aplicar</string>
+    <string name="not_installed">App nao encontrado</string>
+    <string name="app_not_installed">%1$s nao esta instalado neste celular.</string>
+    <string name="shortcut_requested">Atalho breakcore pedido para %1$s.</string>
+    <string name="shortcut_unsupported">Seu launcher nao suporta esse tipo de atalho.</string>
+    <string name="icon_load_failed">Nao foi possivel carregar esse icone.</string>
 </resources>
