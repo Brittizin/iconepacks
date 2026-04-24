@@ -6,6 +6,7 @@ on:
     paths:
       - "android-app/**"
       - "tools/**"
+      - "source-art/**"
       - "package.json"
       - "package-lock.json"
       - ".github/workflows/build-android-apk.yml"
@@ -28,7 +29,7 @@ jobs:
 
       - name: Generate icon assets
         run: |
-          node ./tools/generate-breakcore-icons.js
+          node tools/generate-breakcore-icons.js
           mkdir -p android-app/app/src/main/assets/icons
           cp breakcore-icon-pack/icons/*.png android-app/app/src/main/assets/icons/
           cp breakcore-icon-pack/manifest/icon-pack.json android-app/app/src/main/assets/icon-pack.json
