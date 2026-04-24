@@ -1,0 +1,13 @@
+{
+  "name": "phone-stream-deck",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Controle tipo Stream Deck usando o celular na rede local.",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "asar": "^3.2.0",
+    "qrcode": "^1.5.4"
+  }
+}
