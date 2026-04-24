@@ -7,88 +7,187 @@ const OUT_DIR = path.join(ROOT, "breakcore-icon-pack");
 const ICONS_DIR = path.join(OUT_DIR, "icons");
 const PREVIEW_DIR = path.join(OUT_DIR, "preview");
 const MANIFEST_DIR = path.join(OUT_DIR, "manifest");
+const REF_DIR = path.join(ROOT, "source-art", "refs");
 
 const ICON_SIZE = 512;
+const REFERENCE_FILES = {
+  square: path.join(REF_DIR, "breakcore-sheet-square.png"),
+  wide: path.join(REF_DIR, "breakcore-sheet-wide.png")
+};
+
+const REFERENCE_LAYOUTS = {
+  square: {
+    file: "square",
+    cropWidth: 176,
+    cropHeight: 176,
+    positions: {
+      0:  [25, 54],
+      1:  [226, 54],
+      2:  [428, 54],
+      3:  [629, 54],
+      4:  [830, 54],
+      5:  [1031, 54],
+      6:  [25, 255],
+      7:  [226, 255],
+      8:  [428, 255],
+      9:  [629, 255],
+      10: [830, 255],
+      11: [1031, 255],
+      12: [25, 456],
+      13: [226, 456],
+      14: [428, 456],
+      15: [629, 456],
+      16: [830, 456],
+      17: [1031, 456],
+      18: [25, 657],
+      19: [226, 657],
+      20: [428, 657],
+      21: [629, 657],
+      22: [830, 657],
+      23: [1031, 657],
+      24: [25, 858],
+      25: [226, 858],
+      26: [428, 858],
+      27: [629, 858],
+      28: [830, 858],
+      29: [1031, 858],
+      30: [25, 1059],
+      31: [226, 1059],
+      32: [428, 1059],
+      33: [629, 1059],
+      34: [830, 1059],
+      35: [1031, 1059]
+    }
+  },
+  wide: {
+    file: "wide",
+    cropWidth: 142,
+    cropHeight: 142,
+    positions: {
+      0:  [16, 55],
+      1:  [184, 55],
+      2:  [352, 55],
+      3:  [520, 55],
+      4:  [688, 55],
+      5:  [856, 55],
+      6:  [1024, 55],
+      7:  [1192, 55],
+      8:  [1360, 55],
+      9:  [16, 222],
+      10: [184, 222],
+      11: [352, 222],
+      12: [520, 222],
+      13: [688, 222],
+      14: [856, 222],
+      15: [1024, 222],
+      16: [1192, 222],
+      17: [1360, 222],
+      18: [16, 390],
+      19: [184, 390],
+      20: [352, 390],
+      21: [520, 390],
+      22: [688, 390],
+      23: [856, 390],
+      24: [1024, 390],
+      25: [1192, 390],
+      26: [1360, 390],
+      27: [16, 558],
+      28: [184, 558],
+      29: [352, 558],
+      30: [520, 558],
+      31: [688, 558],
+      32: [856, 558],
+      33: [1024, 558],
+      34: [1192, 558],
+      35: [1360, 558],
+      36: [16, 726],
+      37: [184, 726],
+      38: [352, 726],
+      39: [520, 726]
+    }
+  }
+};
+
 const ICONS = [
-  { slug: "whatsapp", name: "WhatsApp", glyph: "WA", packages: ["com.whatsapp", "com.whatsapp.w4b"] },
-  { slug: "instagram", name: "Instagram", glyph: "IG", packages: ["com.instagram.android"] },
-  { slug: "tiktok", name: "TikTok", glyph: "TK", packages: ["com.zhiliaoapp.musically"] },
-  { slug: "youtube", name: "YouTube", glyph: "YT", packages: ["com.google.android.youtube"] },
-  { slug: "youtube_music", name: "YouTube Music", glyph: "YM", packages: ["com.google.android.apps.youtube.music"] },
-  { slug: "spotify", name: "Spotify", glyph: "SP", packages: ["com.spotify.music"] },
-  { slug: "telegram", name: "Telegram", glyph: "TG", packages: ["org.telegram.messenger"] },
-  { slug: "discord", name: "Discord", glyph: "DC", packages: ["com.discord"] },
-  { slug: "x", name: "X", glyph: "X", packages: ["com.twitter.android"] },
+  { slug: "whatsapp", name: "WhatsApp", glyph: "WA", packages: ["com.whatsapp", "com.whatsapp.w4b"], reference: { sheet: "square", index: 5 } },
+  { slug: "instagram", name: "Instagram", glyph: "IG", packages: ["com.instagram.android"], reference: { sheet: "square", index: 7 } },
+  { slug: "tiktok", name: "TikTok", glyph: "TK", packages: ["com.zhiliaoapp.musically"], reference: { sheet: "square", index: 8 } },
+  { slug: "youtube", name: "YouTube", glyph: "YT", packages: ["com.google.android.youtube"], reference: { sheet: "square", index: 6 } },
+  { slug: "youtube_music", name: "YouTube Music", glyph: "YM", packages: ["com.google.android.apps.youtube.music"], reference: { sheet: "wide", index: 37 } },
+  { slug: "spotify", name: "Spotify", glyph: "SP", packages: ["com.spotify.music"], reference: { sheet: "square", index: 3 } },
+  { slug: "telegram", name: "Telegram", glyph: "TG", packages: ["org.telegram.messenger"], reference: { sheet: "square", index: 9 } },
+  { slug: "discord", name: "Discord", glyph: "DC", packages: ["com.discord"], reference: { sheet: "square", index: 1 } },
+  { slug: "x", name: "X", glyph: "X", packages: ["com.twitter.android"], reference: { sheet: "square", index: 11 } },
   { slug: "threads", name: "Threads", glyph: "TH", packages: ["com.instagram.barcelona"] },
   { slug: "facebook", name: "Facebook", glyph: "FB", packages: ["com.facebook.katana"] },
-  { slug: "messenger", name: "Messenger", glyph: "MS", packages: ["com.facebook.orca"] },
+  { slug: "messenger", name: "Messenger", glyph: "MS", packages: ["com.facebook.orca"], reference: { sheet: "wide", index: 20 } },
   { slug: "snapchat", name: "Snapchat", glyph: "SC", packages: ["com.snapchat.android"] },
   { slug: "reddit", name: "Reddit", glyph: "RD", packages: ["com.reddit.frontpage"] },
-  { slug: "pinterest", name: "Pinterest", glyph: "PI", packages: ["com.pinterest"] },
-  { slug: "twitch", name: "Twitch", glyph: "TW", packages: ["tv.twitch.android.app"] },
-  { slug: "netflix", name: "Netflix", glyph: "NF", packages: ["com.netflix.mediaclient"] },
+  { slug: "pinterest", name: "Pinterest", glyph: "PI", packages: ["com.pinterest"], reference: { sheet: "square", index: 35 } },
+  { slug: "twitch", name: "Twitch", glyph: "TW", packages: ["tv.twitch.android.app"], reference: { sheet: "square", index: 34 } },
+  { slug: "netflix", name: "Netflix", glyph: "NF", packages: ["com.netflix.mediaclient"], reference: { sheet: "square", index: 33 } },
   { slug: "prime_video", name: "Prime Video", glyph: "PV", packages: ["com.amazon.avod.thirdpartyclient"] },
   { slug: "disney_plus", name: "Disney Plus", glyph: "DP", packages: ["com.disney.disneyplus"] },
   { slug: "max", name: "Max", glyph: "MX", packages: ["com.wbd.stream"] },
-  { slug: "chrome", name: "Chrome", glyph: "CH", packages: ["com.android.chrome"] },
+  { slug: "chrome", name: "Chrome", glyph: "CH", packages: ["com.android.chrome"], reference: { sheet: "square", index: 2 } },
   { slug: "brave", name: "Brave", glyph: "BR", packages: ["com.brave.browser"] },
   { slug: "firefox", name: "Firefox", glyph: "FF", packages: ["org.mozilla.firefox"] },
   { slug: "samsung_internet", name: "Samsung Internet", glyph: "SI", packages: ["com.sec.android.app.sbrowser"] },
-  { slug: "tor_browser", name: "Tor Browser", glyph: "TR", packages: ["org.torproject.torbrowser"] },
-  { slug: "gmail", name: "Gmail", glyph: "GM", packages: ["com.google.android.gm"] },
+  { slug: "tor_browser", name: "Tor Browser", glyph: "TR", packages: ["org.torproject.torbrowser"], reference: { sheet: "wide", index: 34 } },
+  { slug: "gmail", name: "Gmail", glyph: "GM", packages: ["com.google.android.gm"], reference: { sheet: "square", index: 10 } },
   { slug: "google", name: "Google", glyph: "GO", packages: ["com.google.android.googlequicksearchbox"] },
-  { slug: "maps", name: "Maps", glyph: "MP", packages: ["com.google.android.apps.maps"] },
+  { slug: "maps", name: "Maps", glyph: "MP", packages: ["com.google.android.apps.maps"], reference: { sheet: "square", index: 26 } },
   { slug: "drive", name: "Drive", glyph: "DV", packages: ["com.google.android.apps.docs"] },
-  { slug: "photos", name: "Photos", glyph: "PH", packages: ["com.google.android.apps.photos"] },
-  { slug: "calendar", name: "Calendar", glyph: "31", packages: ["com.google.android.calendar"] },
-  { slug: "camera", name: "Camera", glyph: "CM", packages: ["com.google.android.GoogleCamera"] },
-  { slug: "files", name: "Files", glyph: "FL", packages: ["com.google.android.apps.nbu.files"] },
-  { slug: "phone", name: "Phone", glyph: "PHN", packages: ["com.google.android.dialer"] },
-  { slug: "messages", name: "Messages", glyph: "MSG", packages: ["com.google.android.apps.messaging"] },
+  { slug: "photos", name: "Photos", glyph: "PH", packages: ["com.google.android.apps.photos"], reference: { sheet: "square", index: 15 } },
+  { slug: "calendar", name: "Calendar", glyph: "31", packages: ["com.google.android.calendar"], reference: { sheet: "square", index: 17 } },
+  { slug: "camera", name: "Camera", glyph: "CM", packages: ["com.google.android.GoogleCamera"], reference: { sheet: "square", index: 14 } },
+  { slug: "files", name: "Files", glyph: "FL", packages: ["com.google.android.apps.nbu.files"], reference: { sheet: "square", index: 16 } },
+  { slug: "phone", name: "Phone", glyph: "PHN", packages: ["com.google.android.dialer"], reference: { sheet: "square", index: 13 } },
+  { slug: "messages", name: "Messages", glyph: "MSG", packages: ["com.google.android.apps.messaging"], reference: { sheet: "square", index: 12 } },
   { slug: "contacts", name: "Contacts", glyph: "CT", packages: ["com.google.android.contacts"] },
-  { slug: "clock", name: "Clock", glyph: "CLK", packages: ["com.google.android.deskclock"] },
-  { slug: "calculator", name: "Calculator", glyph: "CAL", packages: ["com.google.android.calculator"] },
-  { slug: "settings", name: "Settings", glyph: "SET", packages: ["com.android.settings"] },
-  { slug: "play_store", name: "Play Store", glyph: "PS", packages: ["com.android.vending"] },
+  { slug: "clock", name: "Clock", glyph: "CLK", packages: ["com.google.android.deskclock"], reference: { sheet: "square", index: 18 } },
+  { slug: "calculator", name: "Calculator", glyph: "CAL", packages: ["com.google.android.calculator"], reference: { sheet: "square", index: 22 } },
+  { slug: "settings", name: "Settings", glyph: "SET", packages: ["com.android.settings"], reference: { sheet: "square", index: 19 } },
+  { slug: "play_store", name: "Play Store", glyph: "PS", packages: ["com.android.vending"], reference: { sheet: "square", index: 20 } },
   { slug: "play_games", name: "Play Games", glyph: "PG", packages: ["com.google.android.play.games"] },
   { slug: "gallery", name: "Gallery", glyph: "GAL", packages: ["com.sec.android.gallery3d"] },
-  { slug: "weather", name: "Weather", glyph: "WE", packages: ["com.google.android.apps.weather"] },
-  { slug: "notes", name: "Notes", glyph: "NT", packages: ["com.google.android.keep", "com.samsung.android.app.notes"] },
-  { slug: "music", name: "Music", glyph: "MU", packages: ["com.google.android.apps.youtube.music"] },
-  { slug: "recorder", name: "Recorder", glyph: "REC", packages: ["com.google.android.apps.recorder"] },
-  { slug: "security", name: "Security", glyph: "SEC", packages: ["com.miui.securitycenter"] },
-  { slug: "app_store", name: "Galaxy Store", glyph: "GS", packages: ["com.sec.android.app.samsungapps"] },
+  { slug: "weather", name: "Weather", glyph: "WE", packages: ["com.google.android.apps.weather"], reference: { sheet: "square", index: 27 } },
+  { slug: "notes", name: "Notes", glyph: "NT", packages: ["com.google.android.keep", "com.samsung.android.app.notes"], reference: { sheet: "square", index: 23 } },
+  { slug: "music", name: "Music", glyph: "MU", packages: ["com.google.android.apps.youtube.music"], reference: { sheet: "square", index: 24 } },
+  { slug: "recorder", name: "Recorder", glyph: "REC", packages: ["com.google.android.apps.recorder"], reference: { sheet: "square", index: 25 } },
+  { slug: "security", name: "Security", glyph: "SEC", packages: ["com.miui.securitycenter"], reference: { sheet: "square", index: 28 } },
+  { slug: "app_store", name: "Galaxy Store", glyph: "GS", packages: ["com.sec.android.app.samsungapps"], reference: { sheet: "square", index: 21 } },
   { slug: "uber", name: "Uber", glyph: "UB", packages: ["com.ubercab"] },
   { slug: "ifood", name: "iFood", glyph: "FD", packages: ["br.com.brainweb.ifood"] },
-  { slug: "mercado_livre", name: "Mercado Livre", glyph: "ML", packages: ["com.mercadolibre"] },
+  { slug: "mercado_livre", name: "Mercado Livre", glyph: "ML", packages: ["com.mercadolibre"], reference: { sheet: "wide", index: 19 } },
   { slug: "shopee", name: "Shopee", glyph: "SH", packages: ["com.shopee.br"] },
-  { slug: "amazon", name: "Amazon", glyph: "AZ", packages: ["com.amazon.mShop.android.shopping"] },
-  { slug: "aliexpress", name: "AliExpress", glyph: "AE", packages: ["com.alibaba.aliexpresshd"] },
+  { slug: "amazon", name: "Amazon", glyph: "AZ", packages: ["com.amazon.mShop.android.shopping"], reference: { sheet: "wide", index: 2 } },
+  { slug: "aliexpress", name: "AliExpress", glyph: "AE", packages: ["com.alibaba.aliexpresshd"], reference: { sheet: "wide", index: 1 } },
   { slug: "nubank", name: "Nubank", glyph: "NU", packages: ["com.nu.production"] },
   { slug: "paypal", name: "PayPal", glyph: "PP", packages: ["com.paypal.android.p2pmobile"] },
   { slug: "picpay", name: "PicPay", glyph: "PY", packages: ["com.picpay"] },
   { slug: "binance", name: "Binance", glyph: "BN", packages: ["com.binance.dev"] },
-  { slug: "steam", name: "Steam", glyph: "ST", packages: ["com.valvesoftware.android.steam.community"] },
+  { slug: "steam", name: "Steam", glyph: "ST", packages: ["com.valvesoftware.android.steam.community"], reference: { sheet: "wide", index: 30 } },
   { slug: "epic_games", name: "Epic Games", glyph: "EG", packages: ["com.epicgames.portal"] },
-  { slug: "roblox", name: "Roblox", glyph: "RB", packages: ["com.roblox.client"] },
-  { slug: "minecraft", name: "Minecraft", glyph: "MC", packages: ["com.mojang.minecraftpe"] },
-  { slug: "free_fire", name: "Free Fire", glyph: "FR", packages: ["com.dts.freefireth"] },
-  { slug: "cod_mobile", name: "COD Mobile", glyph: "CD", packages: ["com.activision.callofduty.shooter"] },
-  { slug: "standoff_2", name: "Standoff 2", glyph: "SO", packages: ["com.axlebolt.standoff2"] },
-  { slug: "genshin_impact", name: "Genshin Impact", glyph: "GI", packages: ["com.miHoYo.GenshinImpact"] },
-  { slug: "honkai_star_rail", name: "Honkai Star Rail", glyph: "HS", packages: ["com.HoYoverse.hkrpgoversea"] },
+  { slug: "roblox", name: "Roblox", glyph: "RB", packages: ["com.roblox.client"], reference: { sheet: "square", index: 0 } },
+  { slug: "minecraft", name: "Minecraft", glyph: "MC", packages: ["com.mojang.minecraftpe"], reference: { sheet: "square", index: 32 } },
+  { slug: "free_fire", name: "Free Fire", glyph: "FR", packages: ["com.dts.freefireth"], reference: { sheet: "square", index: 30 } },
+  { slug: "cod_mobile", name: "COD Mobile", glyph: "CD", packages: ["com.activision.callofduty.shooter"], reference: { sheet: "square", index: 31 } },
+  { slug: "standoff_2", name: "Standoff 2", glyph: "SO", packages: ["com.axlebolt.standoff2"], reference: { sheet: "square", index: 4 } },
+  { slug: "genshin_impact", name: "Genshin Impact", glyph: "GI", packages: ["com.miHoYo.GenshinImpact"], reference: { sheet: "wide", index: 11 } },
+  { slug: "honkai_star_rail", name: "Honkai Star Rail", glyph: "HS", packages: ["com.HoYoverse.hkrpgoversea"], reference: { sheet: "wide", index: 14 } },
   { slug: "mobile_legends", name: "Mobile Legends", glyph: "MLB", packages: ["com.mobile.legends"] },
   { slug: "brawl_stars", name: "Brawl Stars", glyph: "BS", packages: ["com.supercell.brawlstars"] },
   { slug: "clash_royale", name: "Clash Royale", glyph: "CR", packages: ["com.supercell.clashroyale"] },
   { slug: "clash_of_clans", name: "Clash of Clans", glyph: "CC", packages: ["com.supercell.clashofclans"] },
   { slug: "pubg_mobile", name: "PUBG Mobile", glyph: "PGM", packages: ["com.tencent.ig"] },
-  { slug: "chatgpt", name: "ChatGPT", glyph: "AI", packages: ["com.openai.chatgpt"] },
-  { slug: "duolingo", name: "Duolingo", glyph: "DU", packages: ["com.duolingo"] },
+  { slug: "chatgpt", name: "ChatGPT", glyph: "AI", packages: ["com.openai.chatgpt"], reference: { sheet: "wide", index: 5 } },
+  { slug: "duolingo", name: "Duolingo", glyph: "DU", packages: ["com.duolingo"], reference: { sheet: "wide", index: 7 } },
   { slug: "capcut", name: "CapCut", glyph: "CP", packages: ["com.lemon.lvoverseas"] },
   { slug: "canva", name: "Canva", glyph: "CV", packages: ["com.canva.editor"] },
   { slug: "notion", name: "Notion", glyph: "NO", packages: ["notion.id"] },
   { slug: "vlc", name: "VLC", glyph: "VC", packages: ["org.videolan.vlc"] },
-  { slug: "capcut_music", name: "SoundCloud", glyph: "SD", packages: ["com.soundcloud.android"] },
+  { slug: "capcut_music", name: "SoundCloud", glyph: "SD", packages: ["com.soundcloud.android"], reference: { sheet: "wide", index: 26 } },
   { slug: "deezer", name: "Deezer", glyph: "DZ", packages: ["deezer.android.app"] },
   { slug: "kwai", name: "Kwai", glyph: "KW", packages: ["com.kwai.video"] },
   { slug: "linkedin", name: "LinkedIn", glyph: "IN", packages: ["com.linkedin.android"] },
@@ -148,6 +247,50 @@ function ensureDir(dir) {
   fs.mkdirSync(dir, { recursive: true });
 }
 
+function hasReferenceAssets() {
+  return Object.values(REFERENCE_FILES).every((file) => fs.existsSync(file));
+}
+
+function loadPng(filePath) {
+  return PNG.sync.read(fs.readFileSync(filePath));
+}
+
+function savePng(png, filePath) {
+  fs.writeFileSync(filePath, PNG.sync.write(png));
+}
+
+function createCanvas(width, height) {
+  return new PNG({ width, height });
+}
+
+function setPixel(png, x, y, color) {
+  if (x < 0 || y < 0 || x >= png.width || y >= png.height) return;
+  const idx = (png.width * y + x) * 4;
+  png.data[idx] = color[0];
+  png.data[idx + 1] = color[1];
+  png.data[idx + 2] = color[2];
+  png.data[idx + 3] = color[3];
+}
+
+function blendPixel(png, x, y, color, alpha = 1) {
+  if (x < 0 || y < 0 || x >= png.width || y >= png.height) return;
+  const idx = (png.width * y + x) * 4;
+  const a = (color[3] / 255) * alpha;
+  const inv = 1 - a;
+  png.data[idx] = Math.round(color[0] * a + png.data[idx] * inv);
+  png.data[idx + 1] = Math.round(color[1] * a + png.data[idx + 1] * inv);
+  png.data[idx + 2] = Math.round(color[2] * a + png.data[idx + 2] * inv);
+  png.data[idx + 3] = Math.min(255, Math.round((a + (png.data[idx + 3] / 255) * inv) * 255));
+}
+
+function fillRect(png, x, y, width, height, color) {
+  for (let py = y; py < y + height; py += 1) {
+    for (let px = x; px < x + width; px += 1) {
+      setPixel(png, px, py, color);
+    }
+  }
+}
+
 function mulberry32(seed) {
   let t = seed >>> 0;
   return () => {
@@ -167,47 +310,10 @@ function hashString(input) {
   return hash >>> 0;
 }
 
-function createCanvas(width, height) {
-  return new PNG({ width, height });
-}
-
-function setPixel(png, x, y, color) {
-  if (x < 0 || y < 0 || x >= png.width || y >= png.height) {
-    return;
-  }
-  const idx = (png.width * y + x) * 4;
-  png.data[idx] = color[0];
-  png.data[idx + 1] = color[1];
-  png.data[idx + 2] = color[2];
-  png.data[idx + 3] = color[3];
-}
-
-function blendPixel(png, x, y, color, alpha = 1) {
-  if (x < 0 || y < 0 || x >= png.width || y >= png.height) {
-    return;
-  }
-  const idx = (png.width * y + x) * 4;
-  const a = (color[3] / 255) * alpha;
-  const inv = 1 - a;
-  png.data[idx] = Math.round(color[0] * a + png.data[idx] * inv);
-  png.data[idx + 1] = Math.round(color[1] * a + png.data[idx + 1] * inv);
-  png.data[idx + 2] = Math.round(color[2] * a + png.data[idx + 2] * inv);
-  png.data[idx + 3] = Math.min(255, Math.round((a + (png.data[idx + 3] / 255) * inv) * 255));
-}
-
-function fillRect(png, x, y, width, height, color) {
-  for (let py = y; py < y + height; py += 1) {
-    for (let px = x; px < x + width; px += 1) {
-      setPixel(png, px, py, color);
-    }
-  }
-}
-
 function drawHorizontalGlitch(png, y, thickness, color, alpha) {
   for (let row = 0; row < thickness; row += 1) {
-    const py = y + row;
     for (let x = 0; x < png.width; x += 1) {
-      blendPixel(png, x, py, color, alpha);
+      blendPixel(png, x, y + row, color, alpha);
     }
   }
 }
@@ -251,11 +357,10 @@ function drawText(png, text, x, y, scale, color, alpha = 1, spacing = 1) {
     const glyph = FONT[char] || FONT[" "];
     for (let row = 0; row < glyph.length; row += 1) {
       for (let col = 0; col < glyph[row].length; col += 1) {
-        if (glyph[row][col] === "1") {
-          for (let sy = 0; sy < scale; sy += 1) {
-            for (let sx = 0; sx < scale; sx += 1) {
-              blendPixel(png, cursor + col * scale + sx, y + row * scale + sy, color, alpha);
-            }
+        if (glyph[row][col] !== "1") continue;
+        for (let sy = 0; sy < scale; sy += 1) {
+          for (let sx = 0; sx < scale; sx += 1) {
+            blendPixel(png, cursor + col * scale + sx, y + row * scale + sy, color, alpha);
           }
         }
       }
@@ -276,16 +381,13 @@ function measureText(text, scale, spacing = 1) {
 
 function wrapLabel(name) {
   const words = name.split(" ");
-  if (words.length <= 1) {
-    return [name.toUpperCase()];
-  }
+  if (words.length <= 1) return [name.toUpperCase()];
   const lines = [];
   let current = words[0];
   for (let i = 1; i < words.length; i += 1) {
     const candidate = `${current} ${words[i]}`;
-    if (candidate.length <= 10) {
-      current = candidate;
-    } else {
+    if (candidate.length <= 10) current = candidate;
+    else {
       lines.push(current.toUpperCase());
       current = words[i];
     }
@@ -294,7 +396,44 @@ function wrapLabel(name) {
   return lines.slice(0, 2);
 }
 
-function renderIcon(icon) {
+function cropAndScale(src, left, top, width, height, outSize) {
+  const out = createCanvas(outSize, outSize);
+  for (let y = 0; y < outSize; y += 1) {
+    for (let x = 0; x < outSize; x += 1) {
+      const srcX = Math.min(src.width - 1, left + Math.floor((x / outSize) * width));
+      const srcY = Math.min(src.height - 1, top + Math.floor((y / outSize) * height));
+      const idx = (src.width * srcY + srcX) * 4;
+      setPixel(out, x, y, [
+        src.data[idx],
+        src.data[idx + 1],
+        src.data[idx + 2],
+        src.data[idx + 3]
+      ]);
+    }
+  }
+  return out;
+}
+
+function applyBreakcoreFinish(png, seed) {
+  const rng = mulberry32(seed);
+  const red = [235, 12, 18, 255];
+  const pale = [255, 242, 232, 255];
+
+  for (let i = 0; i < 900; i += 1) {
+    const x = Math.floor(rng() * png.width);
+    const y = Math.floor(rng() * png.height);
+    blendPixel(png, x, y, rng() > 0.7 ? pale : red, 0.16 + rng() * 0.2);
+  }
+
+  for (let i = 0; i < 16; i += 1) {
+    drawHorizontalGlitch(png, Math.floor(rng() * png.height), 1 + Math.floor(rng() * 2), red, 0.08 + rng() * 0.08);
+  }
+
+  drawRoundedRectOutline(png, 18, 18, png.width - 36, png.height - 36, 56, 3, red, 0.8);
+  return png;
+}
+
+function renderFallbackIcon(icon) {
   const rng = mulberry32(hashString(icon.slug));
   const png = createCanvas(ICON_SIZE, ICON_SIZE);
   const black = [4, 4, 4, 255];
@@ -311,29 +450,10 @@ function renderIcon(icon) {
     for (let x = 0; x < ICON_SIZE; x += 1) {
       const dx = x - centerX;
       const dy = y - centerY;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      const glow = Math.max(0, 1 - dist / glowRadius);
-      if (glow > 0) {
-        blendPixel(png, x, y, deepRed, glow * 0.65);
-      }
+      const glow = Math.max(0, 1 - Math.sqrt(dx * dx + dy * dy) / glowRadius);
+      if (glow > 0) blendPixel(png, x, y, deepRed, glow * 0.65);
     }
   }
-
-  for (let i = 0; i < 18; i += 1) {
-    const y = Math.floor(rng() * ICON_SIZE);
-    const alpha = 0.05 + rng() * 0.15;
-    drawHorizontalGlitch(png, y, 1 + Math.floor(rng() * 3), red, alpha);
-  }
-
-  for (let i = 0; i < 1200; i += 1) {
-    const x = Math.floor(rng() * ICON_SIZE);
-    const y = Math.floor(rng() * ICON_SIZE);
-    const shade = rng() > 0.5 ? pale : red;
-    blendPixel(png, x, y, shade, 0.3 + rng() * 0.4);
-  }
-
-  drawRoundedRectOutline(png, 18, 18, ICON_SIZE - 36, ICON_SIZE - 36, 56, 3, red, 0.75);
-  drawRoundedRectOutline(png, 26, 26, ICON_SIZE - 52, ICON_SIZE - 52, 50, 1, pale, 0.18);
 
   const glyph = icon.glyph.toUpperCase();
   const scale = glyph.length >= 3 ? 20 : glyph.length === 2 ? 26 : 34;
@@ -345,30 +465,22 @@ function renderIcon(icon) {
   drawText(png, glyph, glyphX - 4, glyphY + 3, scale, pale, 0.15);
   drawText(png, glyph, glyphX, glyphY, scale, pale, 1);
 
-  for (let i = 0; i < 10; i += 1) {
-    const y = glyphY + Math.floor(rng() * 160);
-    const x = 70 + Math.floor(rng() * 360);
-    const width = 20 + Math.floor(rng() * 120);
-    for (let px = x; px < x + width; px += 1) {
-      blendPixel(png, px, y, red, 0.25 + rng() * 0.25);
-    }
-  }
-
   const tag = ["SYS", "ERR", "VOID", "CTRL", "NOISE", "VX"][Math.floor(rng() * 6)];
   drawText(png, tag, 40, 52, 4, red, 0.85);
-
-  for (let x = 40; x < ICON_SIZE - 40; x += 8) {
-    if (rng() > 0.55) {
-      blendPixel(png, x, ICON_SIZE - 88, red, 0.8);
-      blendPixel(png, x, ICON_SIZE - 87, red, 0.4);
-    }
-  }
-
-  return png;
+  return applyBreakcoreFinish(png, hashString(`${icon.slug}:finish`));
 }
 
-function savePng(png, targetPath) {
-  fs.writeFileSync(targetPath, PNG.sync.write(png));
+function renderReferenceIcon(icon, sheets) {
+  if (!icon.reference) return null;
+  const layout = REFERENCE_LAYOUTS[icon.reference.sheet];
+  const src = sheets[layout.file];
+  const [left, top] = layout.positions[icon.reference.index];
+  const cropped = cropAndScale(src, left, top, layout.cropWidth, layout.cropHeight, ICON_SIZE);
+  return applyBreakcoreFinish(cropped, hashString(`${icon.slug}:ref`));
+}
+
+function renderIcon(icon, sheets) {
+  return renderReferenceIcon(icon, sheets) || renderFallbackIcon(icon);
 }
 
 function createPreview(icons) {
@@ -380,11 +492,10 @@ function createPreview(icons) {
   const width = columns * cellWidth + margin * 2;
   const height = rows * cellHeight + 240;
   const png = createCanvas(width, height);
-  const black = [0, 0, 0, 255];
   const red = [237, 16, 24, 255];
   const pale = [255, 242, 232, 255];
+  fillRect(png, 0, 0, width, height, [0, 0, 0, 255]);
 
-  fillRect(png, 0, 0, width, height, black);
   drawText(png, "BREAKCORE ICON PACK", Math.round((width - measureText("BREAKCORE ICON PACK", 8, 1)) / 2), 36, 8, red, 0.95);
 
   icons.forEach((icon, index) => {
@@ -392,7 +503,7 @@ function createPreview(icons) {
     const col = index % columns;
     const x = margin + col * cellWidth;
     const y = 110 + row * cellHeight;
-    const iconPng = PNG.sync.read(fs.readFileSync(path.join(ICONS_DIR, `${icon.slug}.png`)));
+    const iconPng = loadPng(path.join(ICONS_DIR, `${icon.slug}.png`));
     const scale = 0.48;
     const iconSize = Math.round(iconPng.width * scale);
     for (let py = 0; py < iconSize; py += 1) {
@@ -400,25 +511,21 @@ function createPreview(icons) {
         const srcX = Math.floor(px / scale);
         const srcY = Math.floor(py / scale);
         const srcIdx = (iconPng.width * srcY + srcX) * 4;
-        const color = [
+        blendPixel(png, x + 36 + px, y + py, [
           iconPng.data[srcIdx],
           iconPng.data[srcIdx + 1],
           iconPng.data[srcIdx + 2],
           iconPng.data[srcIdx + 3]
-        ];
-        blendPixel(png, x + 36 + px, y + py, color, 1);
+        ], 1);
       }
     }
 
-    const lines = wrapLabel(icon.name);
-    lines.forEach((line, lineIndex) => {
+    wrapLabel(icon.name).forEach((line, lineIndex) => {
       const textWidth = measureText(line, 4, 1);
       drawText(png, line, x + Math.round((cellWidth - textWidth) / 2), y + iconSize + 28 + lineIndex * 34, 4, red, 0.95);
     });
 
-    if (index % 5 === 0) {
-      drawText(png, "GLITCH", x + 14, y + 8, 3, pale, 0.55);
-    }
+    if (index % 5 === 0) drawText(png, "GLITCH", x + 14, y + 8, 3, pale, 0.55);
   });
 
   drawText(png, "SYSTEM // BREAKCORE MODE", margin, height - 76, 5, red, 0.9);
@@ -429,24 +536,20 @@ function createWallpaper() {
   const width = 1440;
   const height = 3200;
   const png = createCanvas(width, height);
-  const black = [0, 0, 0, 255];
+  fillRect(png, 0, 0, width, height, [0, 0, 0, 255]);
   const red = [236, 14, 20, 255];
   const pale = [255, 242, 232, 255];
-  fillRect(png, 0, 0, width, height, black);
-
   const rng = mulberry32(1337);
+
   for (let y = 0; y < height; y += 1) {
     const intensity = Math.max(0, 1 - Math.abs(y - height * 0.45) / (height * 0.6));
     for (let x = 0; x < width; x += 1) {
-      if (rng() < 0.004) {
-        blendPixel(png, x, y, red, intensity * (0.2 + rng() * 0.4));
-      }
+      if (rng() < 0.004) blendPixel(png, x, y, red, intensity * (0.2 + rng() * 0.4));
     }
   }
 
-  const sampleSlugs = ["chatgpt", "spotify", "whatsapp", "instagram", "roblox", "youtube", "discord", "telegram", "minecraft"];
-  sampleSlugs.forEach((slug, index) => {
-    const iconPng = PNG.sync.read(fs.readFileSync(path.join(ICONS_DIR, `${slug}.png`)));
+  ["chatgpt", "spotify", "whatsapp", "instagram", "roblox", "youtube", "discord", "telegram", "minecraft"].forEach((slug, index) => {
+    const iconPng = loadPng(path.join(ICONS_DIR, `${slug}.png`));
     const scale = 0.62;
     const size = Math.round(iconPng.width * scale);
     const x = 120 + (index % 3) * 420;
@@ -456,13 +559,12 @@ function createWallpaper() {
         const srcX = Math.floor(px / scale);
         const srcY = Math.floor(py / scale);
         const srcIdx = (iconPng.width * srcY + srcX) * 4;
-        const color = [
+        blendPixel(png, x + px, y + py, [
           iconPng.data[srcIdx],
           iconPng.data[srcIdx + 1],
           iconPng.data[srcIdx + 2],
           iconPng.data[srcIdx + 3]
-        ];
-        blendPixel(png, x + px, y + py, color, 1);
+        ], 1);
       }
     }
   });
@@ -480,31 +582,33 @@ function main() {
   ensureDir(PREVIEW_DIR);
   ensureDir(MANIFEST_DIR);
 
-  ICONS.forEach((icon) => {
-    const png = renderIcon(icon);
-    savePng(png, path.join(ICONS_DIR, `${icon.slug}.png`));
-  });
+  const sheets = hasReferenceAssets()
+    ? {
+        square: loadPng(REFERENCE_FILES.square),
+        wide: loadPng(REFERENCE_FILES.wide)
+      }
+    : {};
 
-  const preview = createPreview(ICONS);
-  savePng(preview, path.join(PREVIEW_DIR, "breakcore-preview.png"));
+  ICONS.forEach((icon) => savePng(renderIcon(icon, sheets), path.join(ICONS_DIR, `${icon.slug}.png`)));
+  savePng(createPreview(ICONS), path.join(PREVIEW_DIR, "breakcore-preview.png"));
+  savePng(createWallpaper(), path.join(PREVIEW_DIR, "breakcore-wallpaper.png"));
 
-  const wallpaper = createWallpaper();
-  savePng(wallpaper, path.join(PREVIEW_DIR, "breakcore-wallpaper.png"));
-
-  const manifest = {
-    packName: "Breakcore Icon Pack",
-    author: "Codex for ILuizkk",
-    iconCount: ICONS.length,
-    generatedAt: new Date().toISOString(),
-    style: {
-      theme: "breakcore",
-      palette: ["#000000", "#ec0f15", "#fff2e8"],
-      notes: "glitch, distressed, high-contrast, red on black"
-    },
-    icons: ICONS
-  };
-
-  fs.writeFileSync(path.join(MANIFEST_DIR, "icon-pack.json"), JSON.stringify(manifest, null, 2));
+  fs.writeFileSync(
+    path.join(MANIFEST_DIR, "icon-pack.json"),
+    JSON.stringify({
+      packName: "Breakcore Icon Pack",
+      author: "Codex for ILuizkk",
+      iconCount: ICONS.length,
+      generatedAt: new Date().toISOString(),
+      applyMode: "shortcut",
+      style: {
+        theme: "breakcore",
+        palette: ["#000000", "#ec0f15", "#fff2e8"],
+        notes: "glitch, distressed, high-contrast, red on black"
+      },
+      icons: ICONS
+    }, null, 2)
+  );
 }
 
 main();
