@@ -1,12 +1,13 @@
 package com.pocketdeck.remote;
 
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
+import android.content.Intent;
+import android.content.pm.ShortcutInfo;
+import android.content.pm.ShortcutManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Icon;
+import android.os.Build;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
         adapter = new IconAdapter();
         iconGrid.setAdapter(adapter);
-        iconGrid.setOnItemClickListener((parent, view, position, id) -> copyPackages(filteredIcons.get(position)));
+        iconGrid.setOnItemClickListener((parent, view, position, id) -> applyIcon(filteredIcons.get(position)));
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -78,8 +79,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void loadPack() {
         try (InputStream inputStream = getAssets().open("icon-pack.json")) {
-            String json = readAll(inputStream);
-            JSONObject root = new JSONObject(json);
+            JSONObject root = new JSONObject(readAll(inputStream));
             JSONArray icons = root.getJSONArray("icons");
 
             allIcons.clear();
@@ -91,15 +91,10 @@ public class MainActivity extends AppCompatActivity {
                     packageNames.add(packages.getString(j));
                 }
 
-                allIcons.add(new IconEntry(
-                    item.getString("slug"),
-                    item.getString("name"),
-                    packageNames
-                ));
+                allIcons.add(new IconEntry(item.getString("slug"), item.getString("name"), packageNames));
             }
 
             Collections.sort(allIcons, Comparator.comparing(icon -> icon.name));
-
             packTitleView.setText(root.optString("packName", getString(R.string.app_name)));
             packSubtitleView.setText(getString(R.string.pack_stats, allIcons.size()));
 
@@ -109,9 +104,9 @@ public class MainActivity extends AppCompatActivity {
             updateEmptyState();
         } catch (Exception exception) {
             packTitleView.setText(R.string.app_name);
-            packSubtitleView.setText(getString(R.string.pack_load_error));
+            packSubtitleView.setText(R.string.pack_load_error);
             emptyView.setVisibility(View.VISIBLE);
-            emptyView.setText(getString(R.string.pack_load_error));
+            emptyView.setText(R.string.pack_load_error);
         }
     }
 
@@ -139,18 +134,38 @@ public class MainActivity extends AppCompatActivity {
         iconGrid.setVisibility(filteredIcons.isEmpty() ? View.GONE : View.VISIBLE);
     }
 
-    private void copyPackages(IconEntry icon) {
-        String content = TextUtils.join("\n", icon.packages);
-        ClipboardManager clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-        if (clipboardManager != null) {
-            clipboardManager.setPrimaryClip(ClipData.newPlainText(icon.name, content));
+    private void applyIcon(IconEntry icon) {
+        Intent launchIntent = icon.resolveLaunchIntent();
+        if (launchIntent == null) {
+            Toast.makeText(this, getString(R.string.app_not_installed, icon.name), Toast.LENGTH_SHORT).show();
+            return;
         }
 
-        Toast.makeText(
-            this,
-            getString(R.string.packages_copied, icon.name),
-            Toast.LENGTH_SHORT
-        ).show();
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            Toast.makeText(this, R.string.shortcut_unsupported, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        ShortcutManager shortcutManager = getSystemService(ShortcutManager.class);
+        if (shortcutManager == null || !shortcutManager.isRequestPinShortcutSupported()) {
+            Toast.makeText(this, R.string.shortcut_unsupported, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Bitmap bitmap = getBitmap(icon.slug);
+        if (bitmap == null) {
+            Toast.makeText(this, R.string.icon_load_failed, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        ShortcutInfo shortcut = new ShortcutInfo.Builder(this, "breakcore_" + icon.slug)
+            .setShortLabel(icon.name)
+            .setIntent(launchIntent)
+            .setIcon(Icon.createWithBitmap(bitmap))
+            .build();
+
+        shortcutManager.requestPinShortcut(shortcut, null);
+        Toast.makeText(this, getString(R.string.shortcut_requested, icon.name), Toast.LENGTH_SHORT).show();
     }
 
     private Bitmap getBitmap(String slug) {
@@ -209,25 +224,15 @@ public class MainActivity extends AppCompatActivity {
 
             IconEntry icon = filteredIcons.get(position);
             holder.nameView.setText(icon.name);
-            holder.packageView.setText(icon.packages.isEmpty() ? "" : icon.packages.get(0));
+            holder.statusView.setText(icon.isInstalled() ? R.string.tap_to_apply : R.string.not_installed);
+            holder.statusView.setAlpha(icon.isInstalled() ? 1f : 0.55f);
             holder.iconView.setImageBitmap(getBitmap(icon.slug));
+            holder.root.setAlpha(icon.isInstalled() ? 1f : 0.7f);
             return convertView;
         }
     }
 
-    private static final class ViewHolder {
-        private final ImageView iconView;
-        private final TextView nameView;
-        private final TextView packageView;
-
-        private ViewHolder(View root) {
-            iconView = root.findViewById(R.id.iconImage);
-            nameView = root.findViewById(R.id.iconName);
-            packageView = root.findViewById(R.id.iconPackage);
-        }
-    }
-
-    private static final class IconEntry {
+    private final class IconEntry {
         private final String slug;
         private final String name;
         private final List<String> packages;
@@ -250,6 +255,35 @@ public class MainActivity extends AppCompatActivity {
             }
 
             return false;
+        }
+
+        private Intent resolveLaunchIntent() {
+            for (String packageName : packages) {
+                Intent intent = getPackageManager().getLaunchIntentForPackage(packageName);
+                if (intent != null) {
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+                    return intent;
+                }
+            }
+            return null;
+        }
+
+        private boolean isInstalled() {
+            return resolveLaunchIntent() != null;
+        }
+    }
+
+    private static final class ViewHolder {
+        private final View root;
+        private final ImageView iconView;
+        private final TextView nameView;
+        private final TextView statusView;
+
+        private ViewHolder(View root) {
+            this.root = root;
+            iconView = root.findViewById(R.id.iconImage);
+            nameView = root.findViewById(R.id.iconName);
+            statusView = root.findViewById(R.id.iconStatus);
         }
     }
 }
