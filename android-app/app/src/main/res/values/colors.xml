@@ -1,0 +1,11 @@
+<resources>
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="breakcore_bg">#050505</color>
+    <color name="breakcore_panel">#101010</color>
+    <color name="breakcore_panel_alt">#170809</color>
+    <color name="breakcore_red">#EC0F15</color>
+    <color name="breakcore_red_soft">#88EC0F15</color>
+    <color name="breakcore_text">#FFF2E8</color>
+    <color name="launcher_bg">#EC0F15</color>
+</resources>
