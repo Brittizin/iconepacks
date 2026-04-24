@@ -473,8 +473,11 @@ function renderFallbackIcon(icon) {
 function renderReferenceIcon(icon, sheets) {
   if (!icon.reference) return null;
   const layout = REFERENCE_LAYOUTS[icon.reference.sheet];
+  if (!layout) return null;
   const src = sheets[layout.file];
+  if (!src) return null;
   const [left, top] = layout.positions[icon.reference.index];
+  if (left === undefined || top === undefined) return null;
   const cropped = cropAndScale(src, left, top, layout.cropWidth, layout.cropHeight, ICON_SIZE);
   return applyBreakcoreFinish(cropped, hashString(`${icon.slug}:ref`));
 }
