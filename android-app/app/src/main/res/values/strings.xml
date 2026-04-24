@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Breakcore Icon Pack</string>
+    <string name="pack_loading">Carregando pack...</string>
+    <string name="pack_load_error">Nao foi possivel carregar o manifesto do icon pack.</string>
+    <string name="pack_stats">%1$d icones breakcore prontos para usar</string>
+    <string name="pack_filter_stats">%1$d de %2$d icones visiveis</string>
+    <string name="search_hint">Buscar app, nome ou pacote</string>
+    <string name="helper_text">Toque em um icone para copiar os pacotes Android mais comuns dele.</string>
+    <string name="no_results">Nenhum icone encontrado para essa busca.</string>
+    <string name="packages_copied">Pacotes de %1$s copiados.</string>
+    <string name="icon_preview">Preview do icone</string>
+    <string name="splash_subtitle">glitch mode on</string>
+</resources>
