@@ -1,13 +1,12 @@
 {
-  "name": "phone-stream-deck",
+  "name": "breakcore-icon-pack",
   "version": "1.0.0",
   "private": true,
-  "description": "Controle tipo Stream Deck usando o celular na rede local.",
+  "description": "Gerador e build do APK do breakcore icon pack.",
   "scripts": {
-    "start": "node server.js"
+    "generate-icons": "node ./tools/generate-breakcore-icons.js"
   },
   "dependencies": {
-    "asar": "^3.2.0",
-    "qrcode": "^1.5.4"
+    "pngjs": "^7.0.0"
   }
 }
